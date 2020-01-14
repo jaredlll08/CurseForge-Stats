@@ -1,10 +1,15 @@
-import requests
 import json
 import csv
 
 import pymysql
 import re
 import os.path
+import cloudscraper
+import http.client
+
+http.client._is_legal_header_name = re.compile(rb'[^\s][^:\r\n]*').fullmatch
+
+scraper = cloudscraper.create_scraper()
 
 
 def main():
@@ -37,9 +42,15 @@ def read_config():
 
 
 def get(cfg, url):
-    return requests.get(url, headers={
+    return scraper.get(url, headers={
         "referer": "https://authors.curseforge.com/store/transactions",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+        "accept-language": "en-GB,en;q=0.9,en-US;q=0.8,de;q=0.7",
+        "accept-encoding": "gzip, deflate, br",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+        ":authority": "authors.curseforge.com",
+        ":method": "GET",
+        ":scheme": "https",
     }, cookies={
         "CobaltSession": cfg["Cobalt Session"],
     })
