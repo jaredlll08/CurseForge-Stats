@@ -1,3 +1,5 @@
+# Archived due to the analytics files no longer being served.
+
 # CurseForge Stats
 
 ### What does this do?
